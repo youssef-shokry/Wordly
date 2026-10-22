@@ -1,3 +1,5 @@
+import 'package:depi_final_project/drawer.dart';
+import 'package:depi_final_project/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,10 +14,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Center(
-          child: Text("Hello Wordly")
+        appBar: AppBar(
+          backgroundColor: AppColors.paleLavender,
+          title: Text("Wordly"),
         ),
-      )
+        drawer: WordlyDrawer(),
+        body: Center(child: Text("Hello Wordly")),
+      ),
     );
   }
 }
