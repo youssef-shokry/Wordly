@@ -1,3 +1,4 @@
+import 'package:depi_final_project/edit_profile.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,11 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Text("Hello Wordly")
-        ),
-      )
+      home: EditProfile(),
     );
   }
 }
