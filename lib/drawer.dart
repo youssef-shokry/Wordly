@@ -1,5 +1,4 @@
 import 'package:depi_final_project/presentation/utils/app_colors.dart';
-import 'package:depi_final_project/presentation/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 class WordlyDrawer extends StatefulWidget {
@@ -31,7 +30,11 @@ class _WordlyDrawerState extends State<WordlyDrawer> {
                 children: [
                   Text(
                     "Wordly",
-                    style: AppStyles.blackJakartaSemiBoldDarkBlue18,
+                    style: TextStyle(
+                      color: Color(0xff004ac6),
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Align(
                     alignment: Alignment.centerRight,
@@ -47,19 +50,28 @@ class _WordlyDrawerState extends State<WordlyDrawer> {
             ListTile(
               leading: CircleAvatar(
                 radius: 25,
-                backgroundImage: AssetImage(''),
+                backgroundImage: AssetImage('assets/images/bitmoji_avatar.png'),
               ),
               title: Text(
                 'Elena Vance',
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+              ),
+              subtitle: Text('Lead Localizan', style: TextStyle(fontSize: 13)),
+            ),
+            Divider(color: Color(0xffedf0ff)),
+            ListTile(
+              leading: Icon(Icons.translate),
+              title: Text(
+                'Translate',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
-              subtitle: Text('Lead Localizan'),
             ),
-            Divider(),
-            ListTile(leading: Icon(Icons.translate), title: Text('translate')),
             ListTile(
               leading: Icon(Icons.history),
-              title: Text('history'),
+              title: Text(
+                'History',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
               trailing: Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -77,11 +89,36 @@ class _WordlyDrawerState extends State<WordlyDrawer> {
             ),
             ListTile(
               leading: Icon(Icons.star_border),
-              title: Text('favourites'),
+              title: Text(
+                'Favourites',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              trailing: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade100,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Text(
+                  '8',
+                  style: TextStyle(fontSize: 12, color: Colors.blue),
+                ),
+              ),
             ),
             SwitchListTile(
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+
               // leading: ,
-              title: Text('Floating Assistant'),
+              title: Text(
+                'Floating Assistant',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                softWrap: false,
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
               secondary: Icon(Icons.auto_awesome),
               value: isSwitched,
               activeTrackColor: AppColors.electricBlue,
@@ -92,16 +129,25 @@ class _WordlyDrawerState extends State<WordlyDrawer> {
                 });
               },
             ),
-            ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
-            Spacer(),
-            Divider(),
             ListTile(
-              leading: Icon(Icons.logout, color: Colors.red),
+              leading: Icon(Icons.settings),
               title: Text(
-                'Sign Out',
-                style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.w600,
+                'Settings',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ),
+            Spacer(),
+            Divider(color: Color(0xffedf0ff)),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 7, left: 6),
+              child: ListTile(
+                leading: Icon(Icons.logout, color: Colors.red),
+                title: Text(
+                  'Sign Out',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
