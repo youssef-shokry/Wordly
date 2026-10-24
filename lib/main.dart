@@ -1,5 +1,3 @@
-import 'package:depi_final_project/drawer.dart';
-import 'package:depi_final_project/widgets/wordly_appbar_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,8 +12,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: WordlyAppbarWidget(),
-        drawer: WordlyDrawer(),
         body: Center(child: Text("Hello Wordly")),
       ),
     );
