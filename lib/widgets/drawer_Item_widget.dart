@@ -20,8 +20,6 @@ class DrawerItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return ListTile(
-      // iconColor: AppColors.black,
-      // textColor: AppColors.black,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       leading: Icon(icon,color: color),
       title: Text(
