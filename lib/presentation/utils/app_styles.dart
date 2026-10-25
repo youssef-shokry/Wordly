@@ -13,7 +13,7 @@ abstract final class AppStyles {
 
   static final TextStyle blackJakartaSemiBoldBlack20 = GoogleFonts.plusJakartaSans(
     fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.5,
     color: AppColors.black,
   );
@@ -26,21 +26,21 @@ abstract final class AppStyles {
 
   static final TextStyle blackJakartaSemiBoldBlack18 = GoogleFonts.plusJakartaSans(
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.45,
     color: AppColors.black,
   );
 
   static final TextStyle blackJakartaSemiBoldDarkBlue18 = GoogleFonts.plusJakartaSans(
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.45,
     color: AppColors.darkBlue,
   );
 
   static final TextStyle blackJakartaSemiBoldWhite18 = GoogleFonts.plusJakartaSans(
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.45,
     color: AppColors.wight,
   );
@@ -66,13 +66,13 @@ abstract final class AppStyles {
 
   static final TextStyle blackJakartaSemiBoldBlack15 = GoogleFonts.plusJakartaSans(
     fontSize: 15,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.black,
   );
 
   static final TextStyle blackJakartaSemiBoldWhite15 = GoogleFonts.plusJakartaSans(
     fontSize: 15,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.wight,
   );
 
@@ -98,7 +98,7 @@ abstract final class AppStyles {
 
   static final TextStyle blackJakartaSemiBoldElectricBlue13 = GoogleFonts.plusJakartaSans(
     fontSize: 13,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.electricBlue,
   );
 
@@ -116,7 +116,7 @@ abstract final class AppStyles {
 
   static final TextStyle blackJakartaSemiBoldDarkGrey12 = GoogleFonts.plusJakartaSans(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.6,
     color: AppColors.darkGrey,
   );
@@ -162,7 +162,7 @@ abstract final class AppStyles {
 
   static final TextStyle blackInterSemiBoldBlack20 = GoogleFonts.inter(
     fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.5,
     color: AppColors.black,
   );
@@ -191,7 +191,7 @@ abstract final class AppStyles {
 
   static final TextStyle blackInterSemiBoldBlack15 = GoogleFonts.inter(
     fontSize: 15,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.black,
   );
@@ -210,28 +210,28 @@ abstract final class AppStyles {
 
   static final TextStyle blackInterSemiBoldBlack14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.black,
   );
 
   static final TextStyle blackInterSemiBoldDarkBlue14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.darkBlue,
   );
 
   static final TextStyle blackInterSemiBoldDarkGrey14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.darkGrey,
   );
 
   static final TextStyle blackInterSemiBoldWhite14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.wight,
   );
@@ -256,7 +256,7 @@ abstract final class AppStyles {
 
   static final TextStyle blackInterSemiBoldElectricBlue13 = GoogleFonts.inter(
     fontSize: 13,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.electricBlue,
   );
 
@@ -274,28 +274,28 @@ abstract final class AppStyles {
 
   static final TextStyle blackInterSemiBoldBlack12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.black,
   );
 
   static final TextStyle blackInterSemiBoldDarkBlue12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.darkBlue,
   );
 
   static final TextStyle blackInterSemiBoldDarkGrey12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.darkGrey,
   );
 
   static final TextStyle blackInterSemiBoldWhite12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.wight,
   );
@@ -336,48 +336,48 @@ abstract final class AppStyles {
 
   static final TextStyle blackInterSemiBoldBlack10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.black,
   );
 
   static final TextStyle blackInterSemiBoldDarkBlue10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.darkBlue,
   );
 
   static final TextStyle blackInterSemiBoldDarkGreen10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.darkGreen,
   );
 
   static final TextStyle blackInterSemiBoldDarkGrey10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.darkGrey,
   );
 
   static final TextStyle blackInterSemiBoldElectricBlue10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.electricBlue,
   );
 
   static final TextStyle blackInterSemiBoldLightBlue10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.lightBlue,
   );
 
   static final TextStyle blackInterSemiBoldWhite10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.wight,
   );
@@ -469,7 +469,7 @@ abstract final class AppStyles {
 
   static final TextStyle whiteJakartaSemiBoldPaleBlue20 = GoogleFonts.plusJakartaSans(
     fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.5,
     color: AppColors.paleBlue,
   );
@@ -482,20 +482,20 @@ abstract final class AppStyles {
 
   static final TextStyle whiteJakartaSemiBoldLavender18 = GoogleFonts.plusJakartaSans(
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.45,
     color: AppColors.lavender,
   );
 
   static final TextStyle whiteJakartaSemiBoldPaleBlue18 = GoogleFonts.plusJakartaSans(
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.paleBlue,
   );
 
   static final TextStyle whiteJakartaSemiBoldWhite18 = GoogleFonts.plusJakartaSans(
     fontSize: 18,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.wight,
   );
 
@@ -521,13 +521,13 @@ abstract final class AppStyles {
 
   static final TextStyle whiteJakartaSemiBoldPaleBlue15 = GoogleFonts.plusJakartaSans(
     fontSize: 15,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.paleBlue,
   );
 
   static final TextStyle whiteJakartaSemiBoldWhite15 = GoogleFonts.plusJakartaSans(
     fontSize: 15,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.wight,
   );
 
@@ -558,7 +558,7 @@ abstract final class AppStyles {
 
   static final TextStyle whiteJakartaSemiBoldElectricBlue13 = GoogleFonts.plusJakartaSans(
     fontSize: 13,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.electricBlue,
   );
 
@@ -576,21 +576,21 @@ abstract final class AppStyles {
 
   static final TextStyle whiteJakartaSemiBoldDarkGrey12 = GoogleFonts.plusJakartaSans(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.darkGrey,
   );
 
   static final TextStyle whiteJakartaSemiBoldPaleBlue12 = GoogleFonts.plusJakartaSans(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.6,
     color: AppColors.paleBlue,
   );
 
   static final TextStyle whiteJakartaSemiBoldWhite12 = GoogleFonts.plusJakartaSans(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.wight,
   );
@@ -671,7 +671,7 @@ abstract final class AppStyles {
 
   static final TextStyle whiteInterSemiBoldPaleBlue20 = GoogleFonts.inter(
     fontSize: 20,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: -0.5,
     color: AppColors.paleBlue,
   );
@@ -713,34 +713,34 @@ abstract final class AppStyles {
 
   static final TextStyle whiteInterSemiBoldCoolGray14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.coolGray,
   );
 
   static final TextStyle whiteInterSemiBoldElectricBlue14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.electricBlue,
   );
 
   static final TextStyle whiteInterSemiBoldLavender14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.lavender,
   );
 
   static final TextStyle whiteInterSemiBoldPaleBlue14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.paleBlue,
   );
 
   static final TextStyle whiteInterSemiBoldWhite14 = GoogleFonts.inter(
     fontSize: 14,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.14,
     color: AppColors.wight,
   );
@@ -771,13 +771,13 @@ abstract final class AppStyles {
 
   static final TextStyle whiteInterSemiBoldElectricBlue13 = GoogleFonts.inter(
     fontSize: 13,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.electricBlue,
   );
 
   static final TextStyle whiteInterSemiBoldPaleBlue13 = GoogleFonts.inter(
     fontSize: 13,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.paleBlue,
   );
 
@@ -795,35 +795,35 @@ abstract final class AppStyles {
 
   static final TextStyle whiteInterSemiBoldDarkGrey12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.darkGrey,
   );
 
   static final TextStyle whiteInterSemiBoldElectricBlue12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.electricBlue,
   );
 
   static final TextStyle whiteInterSemiBoldLavender12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.lavender,
   );
 
   static final TextStyle whiteInterSemiBoldLightBlue12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.lightBlue,
   );
 
   static final TextStyle whiteInterSemiBoldPaleBlue12 = GoogleFonts.inter(
     fontSize: 12,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.24,
     color: AppColors.paleBlue,
   );
@@ -876,62 +876,62 @@ abstract final class AppStyles {
 
   static final TextStyle whiteInterSemiBoldCoolGray10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.coolGray,
   );
 
   static final TextStyle whiteInterSemiBoldDarkGreen10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     color: AppColors.darkGreen,
   );
 
   static final TextStyle whiteInterSemiBoldDarkGrey10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.darkGrey,
   );
 
   static final TextStyle whiteInterSemiBoldElectricBlue10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.electricBlue,
   );
 
   static final TextStyle whiteInterSemiBoldLavender10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.lavender,
   );
 
   static final TextStyle whiteInterSemiBoldLightBlue10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.lightBlue,
   );
 
   static final TextStyle whiteInterSemiBoldPaleBlue10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.paleBlue,
   );
 
   static final TextStyle whiteInterSemiBoldPaleGreen10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.paleGreen,
   );
 
   static final TextStyle whiteInterSemiBoldWhite10 = GoogleFonts.inter(
     fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontWeight: FontWeight.w700,
     letterSpacing: 0.4,
     color: AppColors.wight,
   );

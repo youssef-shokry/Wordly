@@ -1,6 +1,5 @@
-import 'package:depi_final_project/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../presentation/utils/app_styles.dart';
+import '../../utils/app_styles.dart';
 
 class DrawerItem extends StatelessWidget {
   final IconData icon;

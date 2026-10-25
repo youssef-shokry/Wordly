@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../presentation/utils/app_colors.dart';
-import '../presentation/utils/app_styles.dart';
+import '../../../presentation/utils/app_colors.dart';
 
 class SwitchDrawerWidget extends StatefulWidget {
   final IconData icon;
