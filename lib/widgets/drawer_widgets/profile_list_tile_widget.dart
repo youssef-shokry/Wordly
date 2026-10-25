@@ -1,6 +1,6 @@
 import 'package:depi_final_project/widgets/mockup_img_widget.dart';
 import 'package:flutter/material.dart';
-import '../presentation/utils/app_styles.dart';
+import '../../presentation/utils/app_styles.dart';
 
 class ProfileListTile extends StatelessWidget {
   final String name;

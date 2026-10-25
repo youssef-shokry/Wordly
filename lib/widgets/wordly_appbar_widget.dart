@@ -1,7 +1,7 @@
 import 'package:depi_final_project/presentation/utils/app_assets.dart';
 import 'package:depi_final_project/presentation/utils/app_styles.dart';
 import 'package:depi_final_project/widgets/mockup_img_widget.dart';
-import 'package:depi_final_project/widgets/wordly_logo.dart';
+import 'package:depi_final_project/widgets/app_bar_widgets/wordly_logo.dart';
 import 'package:flutter/material.dart';
 
 class WordlyAppbarWidget extends StatelessWidget
@@ -18,12 +18,12 @@ class WordlyAppbarWidget extends StatelessWidget
         mainAxisSize: MainAxisSize.min,
         children: [
           WordlyLogoWidget(),
-          SizedBox(width: 5),
+          SizedBox(width: 10),
           Text('Wordly', style: AppStyles.blackJakartaSemiBoldBlack18),
         ],
       ),
       actions: [
-        MockupImgWidget(assetPath: AppAssets.mockupImg,padding: 6,)
+        MockupImgWidget(assetPath: AppAssets.profile,padding: 6,)
       ],
     );
   }
