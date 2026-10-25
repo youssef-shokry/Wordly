@@ -1,10 +1,10 @@
 import 'package:depi_final_project/presentation/utils/app_assets.dart';
 import 'package:depi_final_project/presentation/utils/app_colors.dart';
-import 'package:depi_final_project/widgets/drawer_widgets/custom_drawer_header_widget.dart';
-import 'package:depi_final_project/widgets/drawer_widgets/drawer_Item_widget.dart';
-import 'package:depi_final_project/widgets/drawer_widgets/profile_list_tile_widget.dart';
-import 'package:depi_final_project/widgets/drawer_widgets/switch_drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'drawer_widgets/custom_drawer_header_widget.dart';
+import 'drawer_widgets/drawer_Item_widget.dart';
+import 'drawer_widgets/profile_list_tile_widget.dart';
+import 'drawer_widgets/switch_drawer_widget.dart';
 
 class WordlyDrawer extends StatefulWidget {
   const WordlyDrawer({super.key});

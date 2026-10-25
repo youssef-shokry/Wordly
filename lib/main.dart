@@ -1,5 +1,5 @@
-import 'package:depi_final_project/widgets/drawer.dart';
-import 'package:depi_final_project/widgets/wordly_appbar_widget.dart';
+import 'package:depi_final_project/presentation/widgets/drawer.dart';
+import 'package:depi_final_project/presentation/widgets/wordly_appbar_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {

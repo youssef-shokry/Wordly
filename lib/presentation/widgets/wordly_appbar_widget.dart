@@ -1,8 +1,10 @@
 import 'package:depi_final_project/presentation/utils/app_assets.dart';
 import 'package:depi_final_project/presentation/utils/app_styles.dart';
-import 'package:depi_final_project/widgets/mockup_img_widget.dart';
-import 'package:depi_final_project/widgets/app_bar_widgets/wordly_logo.dart';
+
 import 'package:flutter/material.dart';
+
+import 'app_bar_widgets/wordly_logo.dart';
+import 'mockup_img_widget.dart';
 
 class WordlyAppbarWidget extends StatelessWidget
     implements PreferredSizeWidget {
