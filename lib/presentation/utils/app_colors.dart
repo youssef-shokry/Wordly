@@ -7,7 +7,7 @@ abstract final class AppColors {
   static const Color navyBlue = Color(0xFF111827);
   static const Color midnightBlue = Color(0xFF222C3E);
 
-  //Light Theme Colors
+  //Light Theme Colors#EAEDFF
   static const Color lightBg = Color(0xFFFAF8FF); // Background color - etc..
   static const Color lavenderBg = Color(
     0xFFE2E7FF,
