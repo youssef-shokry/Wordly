@@ -1,7 +1,6 @@
 import 'package:depi_final_project/widgets/custom_button.dart';
 import 'package:depi_final_project/widgets/custom_text_filed.dart';
 import 'package:flutter/material.dart';
-
 import 'presentation/utils/app_colors.dart';
 import 'presentation/utils/app_styles.dart';
 
@@ -32,7 +31,7 @@ class EditProfile extends StatelessWidget {
                       padding: const EdgeInsets.all(2),
                       child: ClipOval(
                         child: Image(
-                          image: AssetImage("assets/images/Profile.png"),
+                          image: AssetImage("assets/images/Editing_Profile.png"),
                           width: 176,
                           height: 176,
                           fit: BoxFit.cover,
