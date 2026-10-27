@@ -1,4 +1,6 @@
 import 'package:depi_final_project/edit_profile.dart';
+import 'package:depi_final_project/presentation/widgets/drawer.dart';
+import 'package:depi_final_project/presentation/widgets/wordly_appbar_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,7 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: EditProfile(),
+      
+      home: Scaffold(
+        appBar: WordlyAppbarWidget(),
+        drawer: WordlyDrawer(),
+        body: EditProfile(),
+      ),
     );
   }
 }
