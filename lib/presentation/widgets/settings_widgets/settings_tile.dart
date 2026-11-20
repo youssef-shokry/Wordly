@@ -3,7 +3,7 @@ import 'package:depi_final_project/presentation/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
 /// A row with a rounded icon box, a title, an optional subtitle and a
-/// trailing widget (chevron by default).
+/// trailing widget (chevron by default). Tappable when [onTap] is given.
 class SettingsTile extends StatelessWidget {
   final IconData icon;
   final String title;

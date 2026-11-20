@@ -20,9 +20,34 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  /// Packs the user can download (every language except English),
+  /// and the size of each one (MB).
+  static final List<String> _availablePacks = Languages.all
+      .where((l) => l.code != Languages.english.code)
+      .map((l) => l.name)
+      .toList();
+  static const int _packSizeMb = 42;
+
   Language _source = Languages.english;
   Language _target = Languages.arabic;
   Language _interfaceLanguage = Languages.english;
+
+  final Set<String> _downloadedPacks = {'Arabic', 'Spanish', 'German'};
+
+
+  void _onSourceChanged(Language value) {
+    setState(() {
+      if (value.code == _target.code) _target = _source;
+      _source = value;
+    });
+  }
+
+  void _onTargetChanged(Language value) {
+    setState(() {
+      if (value.code == _source.code) _source = _target;
+      _target = value;
+    });
+  }
 
   void _swapLanguages() {
     setState(() {
@@ -34,97 +59,99 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final packs = _availablePacks.where(_downloadedPacks.contains).toList();
+
     return Scaffold(
       backgroundColor: AppColors.lightBg,
       body: SingleChildScrollView(
-        padding:  EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _buildAccountSection(),
-             SizedBox(height: 16),
-            _buildTranslationSection(),
-             SizedBox(height: 16),
-            _buildInterfaceLanguageSection(),
+            SettingsSectionCard(
+              icon: Icons.person_outline,
+              title: 'Account',
+              children: [
+                const UserInfoCard(
+                  name: 'Elena Vance',
+                  email: 'elena.vance@example.com',
+                  assetPath: AppAssets.profile,
+                ),
+                const SizedBox(height: 12),
+                SettingsGroup(
+                  children: [
+                    SettingsTile(
+                      icon: Icons.badge_outlined,
+                      title: 'Edit Profile',
+                      subtitle: 'Personal details, avatar, display name',
+                      onTap: () {
+                        // TODO: navigate to the Edit Profile screen.
+                      },
+                    ),
+                    SettingsTile(
+                      icon: Icons.lock_reset,
+                      title: 'Change Password',
+                      onTap: () {
+                        // TODO: navigate to the Change Password screen.
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                OutlinedActionButton(
+                  icon: Icons.logout,
+                  label: 'Log Out',
+                  onPressed: () {
+                    // TODO: log out and navigate to the login screen.
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            SettingsSectionCard(
+              icon: Icons.translate,
+              title: 'Translation Preferences',
+              children: [
+                Text(
+                  'Default Language Pair',
+                  style: AppStyles.blackInterSemiBoldBlack14,
+                ),
+                const SizedBox(height: 8),
+                LanguagePairSelector(
+                  source: _source,
+                  target: _target,
+                  languages: Languages.all,
+                  onSourceChanged: _onSourceChanged,
+                  onTargetChanged: _onTargetChanged,
+                  onSwap: _swapLanguages,
+                ),
+                const SizedBox(height: 16),
+                OfflinePacksTile(
+                  packs: packs,
+                  sizeInMb: packs.length * _packSizeMb,
+                  onManage: () {
+                    // TODO: navigate to the Offline Packs screen.
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            SettingsSectionCard(
+              icon: Icons.language,
+              title: 'Interface Language',
+              children: [
+                LanguageDropdown(
+                  language: _interfaceLanguage,
+                  languages: Languages.all,
+                  showBadge: false,
+                  onChanged: (value) =>
+                      setState(() => _interfaceLanguage = value),
+                ),
+              ],
+            ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildAccountSection() {
-    return SettingsSectionCard(
-      icon: Icons.person_outline,
-      title: 'Account',
-      children: [
-         UserInfoCard(
-          name: 'Elena Vance',
-          email: 'elena.vance@example.com',
-          assetPath: AppAssets.profile,
-        ),
-         SizedBox(height: 12),
-        SettingsGroup(
-          children: [
-            SettingsTile(
-              icon: Icons.badge_outlined,
-              title: 'Edit Profile',
-              subtitle: 'Personal details, avatar, display name',
-              onTap: () {},
-            ),
-            SettingsTile(
-              icon: Icons.lock_reset,
-              title: 'Change Password',
-              onTap: () {},
-            ),
-          ],
-        ),
-        SizedBox(height: 12),
-        OutlinedActionButton(
-          icon: Icons.logout,
-          label: 'Log Out',
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
-
-  Widget _buildTranslationSection() {
-    return SettingsSectionCard(
-      icon: Icons.translate,
-      title: 'Translation Preferences',
-      children: [
-        Text(
-          'Default Language Pair',
-          style: AppStyles.blackInterSemiBoldBlack14,
-        ),
-         SizedBox(height: 8),
-        LanguagePairSelector(
-          source: _source,
-          target: _target,
-          onSourceChanged: (language) => setState(() => _source = language),
-          onTargetChanged: (language) => setState(() => _target = language),
-          onSwap: _swapLanguages,
-        ),
-         SizedBox(height: 16),
-        OfflinePacksTile(
-          packs: const ['Arabic', 'Spanish', 'German'],
-          sizeInMb: 126,
-          onManage: () {},
-        ),
-      ],
-    );
-  }
-
-  Widget _buildInterfaceLanguageSection() {
-    return SettingsSectionCard(
-      icon: Icons.language,
-      title: 'Interface Language',
-      children: [
-        LanguageDropdown(
-          value: _interfaceLanguage,
-          showBadge: false,
-          onChanged: (language) => setState(() => _interfaceLanguage = language),
-        ),
-      ],
     );
   }
 }

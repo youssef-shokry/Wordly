@@ -2,6 +2,7 @@ import 'package:depi_final_project/presentation/utils/app_colors.dart';
 import 'package:depi_final_project/presentation/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 
+/// Outlined full-width button.
 class OutlinedActionButton extends StatelessWidget {
   final IconData icon;
   final String label;

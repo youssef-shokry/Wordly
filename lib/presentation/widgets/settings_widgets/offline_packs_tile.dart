@@ -23,7 +23,9 @@ class OfflinePacksTile extends StatelessWidget {
         SettingsTile(
           icon: Icons.download_for_offline_outlined,
           title: 'Downloaded Offline Packs',
-          subtitle: '${packs.join(', ')} • $sizeInMb MB',
+          subtitle: packs.isEmpty
+              ? 'No packs downloaded'
+              : '${packs.join(', ')} • $sizeInMb MB',
           onTap: onManage,
           trailing: Row(
             mainAxisSize: MainAxisSize.min,

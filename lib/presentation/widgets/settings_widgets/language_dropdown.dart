@@ -3,22 +3,22 @@ import 'package:depi_final_project/presentation/utils/app_colors.dart';
 import 'package:depi_final_project/presentation/widgets/settings_widgets/language_option.dart';
 import 'package:flutter/material.dart';
 
-/// Lavender dropdown field for picking a [Language].
+/// Lavender working dropdown that lets the user pick a [Language].
 /// The three selectors on the settings screen (source, target, interface)
 /// are all instances of this widget.
 class LanguageDropdown extends StatelessWidget {
-  final Language value;
-  final ValueChanged<Language> onChanged;
+  final Language language;
   final List<Language> languages;
+  final ValueChanged<Language> onChanged;
   final String? label;
   final bool showBadge;
   final bool highlighted;
 
   const LanguageDropdown({
     super.key,
-    required this.value,
+    required this.language,
+    required this.languages,
     required this.onChanged,
-    this.languages = Languages.all,
     this.label,
     this.showBadge = true,
     this.highlighted = false,
@@ -26,7 +26,14 @@ class LanguageDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Match by code so the value is always one of the items in the list.
+    final selected = languages.firstWhere(
+      (l) => l.code == language.code,
+      orElse: () => languages.first,
+    );
+
     return Container(
+      height: 56,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         color: AppColors.paleLavender,
@@ -34,33 +41,35 @@ class LanguageDropdown extends StatelessWidget {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<Language>(
-          value: value,
+          value: selected,
           isExpanded: true,
-          dropdownColor: AppColors.wight,
           borderRadius: BorderRadius.circular(12),
+          dropdownColor: AppColors.wight,
           icon: const Icon(Icons.keyboard_arrow_down, color: AppColors.darkGrey),
-          items: [
-            for (final language in languages)
-              DropdownMenuItem(
-                value: language,
-                child: LanguageOption(
-                  language: language,
+          selectedItemBuilder: (_) => languages
+              .map(
+                (l) => LanguageOption(
+                  language: l,
+                  label: label,
                   showBadge: showBadge,
                   highlighted: highlighted,
                 ),
-              ),
-          ],
-          selectedItemBuilder: (_) => [
-            for (final language in languages)
-              LanguageOption(
-                language: language,
-                label: label,
-                showBadge: showBadge,
-                highlighted: highlighted,
-              ),
-          ],
-          onChanged: (language) {
-            if (language != null) onChanged(language);
+              )
+              .toList(),
+          items: languages
+              .map(
+                (l) => DropdownMenuItem<Language>(
+                  value: l,
+                  child: LanguageOption(
+                    language: l,
+                    showBadge: showBadge,
+                    highlighted: highlighted && l.code == selected.code,
+                  ),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            if (value != null) onChanged(value);
           },
         ),
       ),

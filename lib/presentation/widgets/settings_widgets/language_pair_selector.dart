@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class LanguagePairSelector extends StatelessWidget {
   final Language source;
   final Language target;
+  final List<Language> languages;
   final ValueChanged<Language> onSourceChanged;
   final ValueChanged<Language> onTargetChanged;
   final VoidCallback onSwap;
@@ -15,6 +16,7 @@ class LanguagePairSelector extends StatelessWidget {
     super.key,
     required this.source,
     required this.target,
+    required this.languages,
     required this.onSourceChanged,
     required this.onTargetChanged,
     required this.onSwap,
@@ -27,24 +29,26 @@ class LanguagePairSelector extends StatelessWidget {
         Expanded(
           child: LanguageDropdown(
             label: 'SOURCE',
-            value: source,
+            language: source,
+            languages: languages,
             onChanged: onSourceChanged,
           ),
         ),
         const SizedBox(width: 6),
-        InkResponse(
-          onTap: onSwap,
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.lavenderBg,
-            ),
-            child: const Icon(
-              Icons.swap_horiz,
-              color: AppColors.darkBlue,
-              size: 22,
+        Material(
+          color: AppColors.lavenderBg,
+          shape: const CircleBorder(),
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            onTap: onSwap,
+            child: const SizedBox(
+              width: 40,
+              height: 40,
+              child: Icon(
+                Icons.swap_horiz,
+                color: AppColors.darkBlue,
+                size: 22,
+              ),
             ),
           ),
         ),
@@ -52,9 +56,10 @@ class LanguagePairSelector extends StatelessWidget {
         Expanded(
           child: LanguageDropdown(
             label: 'TARGET',
-            value: target,
-            highlighted: true,
+            language: target,
+            languages: languages,
             onChanged: onTargetChanged,
+            highlighted: true,
           ),
         ),
       ],
