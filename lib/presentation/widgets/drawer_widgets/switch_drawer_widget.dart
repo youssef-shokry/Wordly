@@ -1,5 +1,5 @@
+import 'package:depi_final_project/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import '../../../presentation/utils/app_colors.dart';
 
 class SwitchDrawerWidget extends StatefulWidget {
   final IconData icon;
