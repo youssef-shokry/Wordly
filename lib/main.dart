@@ -1,7 +1,7 @@
+import 'package:depi_final_project/screens/favourite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:depi_final_project/presentation/widgets/drawer.dart';
 import 'package:depi_final_project/presentation/widgets/wordly_appbar_widget.dart';
-import 'package:depi_final_project/screens/settings_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: WordlyAppbarWidget(),
         drawer: WordlyDrawer(),
-        body: SettingsScreen(),
+        body: FavouriteScreen(),
       ),
     );
   }
