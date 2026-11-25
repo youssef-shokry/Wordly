@@ -31,7 +31,7 @@ class EditProfile extends StatelessWidget {
                       padding: const EdgeInsets.all(2),
                       child: ClipOval(
                         child: Image(
-                          image: AssetImage("assets/images/Editing_Profile.png"),
+                          image: AssetImage("assets/images/Profile.png"),
                           width: 176,
                           height: 176,
                           fit: BoxFit.cover,
