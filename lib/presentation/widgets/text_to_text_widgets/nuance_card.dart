@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../mock_data/mock_data.dart';
 import '../../models/translation_result_model.dart';
 import '../../utils/app_assets.dart';
@@ -7,6 +8,8 @@ import '../../utils/app_constants.dart';
 
 export '../../models/translation_result_model.dart' show NuanceItemData;
 
+/// Section header + scrollable list of nuance cards.
+/// Falls back to default mock nuances when no items are passed in.
 class ContextAndNuancesSection extends StatelessWidget {
   final int extractedTermsCount;
   final List<NuanceItemData> items;
@@ -24,12 +27,13 @@ class ContextAndNuancesSection extends StatelessWidget {
     final countColor = isDark ? AppColors.coolGray : AppColors.darkGrey;
     final iconColor = isDark ? AppColors.lightBlue : AppColors.electricBlue;
 
+    // Use real data when available, otherwise show defaults
     final displayItems = items.isNotEmpty ? items : MockTranslationData.defaultNuances;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Section Header
+        // ── Section header: "Context & Nuances" + term count ──
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
           child: Row(
@@ -37,11 +41,12 @@ class ContextAndNuancesSection extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.asset(
+                  // AI brain icon
+                  SvgPicture.asset(
                     AppAssets.contextNuances,
                     width: 16,
                     height: 16,
-                    color: iconColor,
+                    colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
                   ),
                   const SizedBox(width: 7),
                   Text(
@@ -54,6 +59,7 @@ class ContextAndNuancesSection extends StatelessWidget {
                   ),
                 ],
               ),
+              // How many terms were extracted
               Text(
                 '${displayItems.length} ${AppConstants.extractedTerms}',
                 style: TextStyle(
@@ -67,7 +73,7 @@ class ContextAndNuancesSection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
 
-        // Cards List
+        // ── One card per nuance item ──
         ...displayItems.map((item) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: NuanceCard(item: item),
@@ -77,7 +83,7 @@ class ContextAndNuancesSection extends StatelessWidget {
   }
 }
 
-// Nuance Card
+/// Single nuance card: term → translation, part of speech, definition, and an example quote.
 class NuanceCard extends StatelessWidget {
   final NuanceItemData item;
 
@@ -89,15 +95,23 @@ class NuanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Card surface
     final cardBg = isDark ? AppColors.navyBlue : AppColors.wight;
     final cardBorder = isDark
         ? AppColors.midnightBlue.withOpacity(0.8)
         : AppColors.paleLavender;
+
+    // Text colors
     final termColor = isDark ? AppColors.wight : AppColors.black;
-    final posBg = isDark ? AppColors.midnightBlue : AppColors.paleLavender;
-    final posTextColor = isDark ? AppColors.coolGray : AppColors.darkGrey;
     final targetColor = isDark ? AppColors.lightBlue : AppColors.electricBlue;
     final defColor = isDark ? AppColors.coolGray : AppColors.darkGrey;
+
+    // Part-of-speech badge
+    final posBg = isDark ? AppColors.midnightBlue : AppColors.paleLavender;
+    final posTextColor = isDark ? AppColors.coolGray : AppColors.darkGrey;
+
+    // Example quote block
     final quoteBg = isDark ? AppColors.deepNavy : AppColors.lightBg;
     final quoteBorder = isDark
         ? AppColors.midnightBlue.withOpacity(0.6)
@@ -105,6 +119,7 @@ class NuanceCard extends StatelessWidget {
     final quoteSourceColor = isDark ? AppColors.paleBlue : AppColors.black;
     final quoteMarkColor = isDark ? AppColors.lightBlue : AppColors.electricBlue;
 
+    // Auto-detect RTL in the translated term
     final isTargetRtl = RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]')
         .hasMatch(item.translatedTerm);
 
@@ -127,12 +142,13 @@ class NuanceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Term Header
+          // ── Term header: source word | POS badge | translated word ──
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
+                  // Source-language term
                   Text(
                     item.term,
                     style: TextStyle(
@@ -142,6 +158,7 @@ class NuanceCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
+                  // Part of speech (noun / verb / adj …)
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                     decoration: BoxDecoration(
@@ -159,6 +176,7 @@ class NuanceCard extends StatelessWidget {
                   ),
                 ],
               ),
+              // Translated term in the target language
               Directionality(
                 textDirection: isTargetRtl ? TextDirection.rtl : TextDirection.ltr,
                 child: Text(
@@ -175,7 +193,7 @@ class NuanceCard extends StatelessWidget {
 
           const SizedBox(height: 8),
 
-          // Definition
+          // ── Short definition of the term ──
           Text(
             item.definition,
             style: TextStyle(
@@ -187,7 +205,7 @@ class NuanceCard extends StatelessWidget {
 
           const SizedBox(height: 12),
 
-          // Quote Box
+          // ── Example usage in source and target language ──
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -198,11 +216,12 @@ class NuanceCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Source-language example sentence
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '“',
+                      '\u201C',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -213,7 +232,7 @@ class NuanceCard extends StatelessWidget {
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
-                        '“${item.exampleSource}”',
+                        '\u201C${item.exampleSource}\u201D',
                         style: TextStyle(
                           fontSize: 12,
                           fontStyle: FontStyle.italic,
@@ -226,6 +245,7 @@ class NuanceCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 6),
+                // Target-language translation of the example
                 Directionality(
                   textDirection: isTargetRtl ? TextDirection.rtl : TextDirection.ltr,
                   child: Align(

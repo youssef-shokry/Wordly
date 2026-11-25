@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 
@@ -33,11 +34,11 @@ class SwapLanguageButton extends StatelessWidget {
           ],
         ),
         child: Center(
-          child: Image.asset(
+          child: SvgPicture.asset(
             AppAssets.swap,
             width: 17,
             height: 14,
-            color: AppColors.wight,
+            colorFilter: const ColorFilter.mode(AppColors.wight, BlendMode.srcIn),
           ),
         ),
       ),

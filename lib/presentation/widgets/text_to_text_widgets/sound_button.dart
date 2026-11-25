@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 
@@ -32,11 +33,11 @@ class SoundButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
+              SvgPicture.asset(
                 AppAssets.sound,
                 width: 15,
                 height: 15,
-                color: textColor,
+                colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
               ),
               const SizedBox(width: 6),
               Text(
@@ -57,11 +58,11 @@ class SoundButton extends StatelessWidget {
 
     return IconButton(
       onPressed: onPressed,
-      icon: Image.asset(
+      icon: SvgPicture.asset(
         AppAssets.sound,
         width: 17,
         height: 17,
-        color: iconColor,
+        colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
       ),
       padding: EdgeInsets.zero,
       constraints: const BoxConstraints(),

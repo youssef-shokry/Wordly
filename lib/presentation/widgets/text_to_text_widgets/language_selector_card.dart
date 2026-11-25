@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
 import 'swap_language_button.dart';
 
+/// Two language cards side by side — FROM and TO — with a swap button between them.
+/// Tapping either card will eventually open a language picker sheet.
 class LanguageSelectorCard extends StatelessWidget {
   final String sourceLangCode;
   final String sourceLangTitle;
@@ -28,20 +30,28 @@ class LanguageSelectorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Card surface and border
     final cardBg = isDark ? AppColors.navyBlue : AppColors.wight;
     final cardBorder = isDark
         ? AppColors.midnightBlue.withOpacity(0.8)
         : AppColors.paleLavender;
+
+    // Text colors
     final labelColor = isDark ? AppColors.coolGray : AppColors.darkGrey;
     final textColor = isDark ? AppColors.wight : AppColors.black;
+
+    // Source language badge (subtle)
     final badgeBg = isDark ? AppColors.midnightBlue : AppColors.paleBlue;
     final badgeText = isDark ? AppColors.lightBlue : AppColors.darkBlue;
-    final targetBadgeBg = isDark ? AppColors.electricBlue : AppColors.electricBlue;
+
+    // Target language badge (accent color)
+    final targetBadgeBg = AppColors.electricBlue;
     final targetBadgeText = AppColors.wight;
 
     return Row(
       children: [
-        // Source Card
+        // ── Source language card ──
         Expanded(
           child: GestureDetector(
             onTap: onSelectSource,
@@ -64,6 +74,7 @@ class LanguageSelectorCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
+                  // Language code badge
                   Container(
                     width: 30,
                     height: 30,
@@ -91,6 +102,7 @@ class LanguageSelectorCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // "FROM" label
                         Text(
                           'FROM',
                           style: TextStyle(
@@ -101,6 +113,7 @@ class LanguageSelectorCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 2),
+                        // Full language name
                         Text(
                           sourceLangTitle,
                           overflow: TextOverflow.ellipsis,
@@ -125,12 +138,11 @@ class LanguageSelectorCard extends StatelessWidget {
         ),
         const SizedBox(width: 8),
 
-        // Swap Button
+        // ── Swap button in the middle ──
         SwapLanguageButton(onTap: onSwap),
-
         const SizedBox(width: 8),
 
-        // Target Card
+        // ── Target language card ──
         Expanded(
           child: GestureDetector(
             onTap: onSelectTarget,
@@ -153,6 +165,7 @@ class LanguageSelectorCard extends StatelessWidget {
               ),
               child: Row(
                 children: [
+                  // Target badge uses the accent color to stand out
                   Container(
                     width: 30,
                     height: 30,
@@ -176,6 +189,7 @@ class LanguageSelectorCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // "TO" label
                         Text(
                           'TO',
                           style: TextStyle(
