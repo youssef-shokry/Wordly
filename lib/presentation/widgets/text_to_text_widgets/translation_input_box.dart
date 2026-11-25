@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 import 'sound_button.dart';
 
+/// The main text input card where the user types what they want translated.
+/// Shows a language label + clear button when there's text,
+/// and a Paste / mic / submit bar when the box is empty.
 class TranslationInputBox extends StatelessWidget {
   final TextEditingController controller;
   final String sourceLanguage;
@@ -28,17 +32,25 @@ class TranslationInputBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Surface
     final cardBg = isDark ? AppColors.navyBlue : AppColors.wight;
     final cardBorder = isDark
         ? AppColors.midnightBlue.withOpacity(0.8)
         : AppColors.paleLavender;
+
+    // Text colors
     final textColor = isDark ? AppColors.wight : AppColors.black;
     final hintColor = isDark ? AppColors.coolGray : AppColors.darkGrey;
+    final langColor = isDark ? AppColors.lightBlue : AppColors.electricBlue;
+
+    // Paste pill colors
     final pasteBg = isDark ? AppColors.midnightBlue : AppColors.paleLavender;
     final pasteTextColor = isDark ? AppColors.paleBlue : AppColors.darkGrey;
+
+    // Submit arrow button colors
     final submitBg = isDark ? AppColors.midnightBlue : AppColors.paleLavender;
     final submitIconColor = isDark ? AppColors.lightBlue : AppColors.electricBlue;
-    final langColor = isDark ? AppColors.lightBlue : AppColors.electricBlue;
 
     final charCount = controller.text.length;
     final hasText = controller.text.isNotEmpty;
@@ -64,13 +76,14 @@ class TranslationInputBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Header Actions
+          // ── Language label + clear button (only while typing) ──
           if (hasText)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Active language indicator dot + name
                   Row(
                     children: [
                       Container(
@@ -93,6 +106,7 @@ class TranslationInputBox extends StatelessWidget {
                       ),
                     ],
                   ),
+                  // Tap to wipe the input
                   GestureDetector(
                     onTap: onClear,
                     child: Icon(
@@ -105,7 +119,7 @@ class TranslationInputBox extends StatelessWidget {
               ),
             ),
 
-          // Text Field
+          // ── The actual text field ──
           TextField(
             controller: controller,
             maxLines: null,
@@ -132,12 +146,13 @@ class TranslationInputBox extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          // Bottom Actions
+          // ── Bottom action bar — two states depending on whether there's text ──
           if (hasText)
-            // Filled Actions
+            // Has text: char counter on the left, mic + submit on the right
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                // Character counter
                 Text(
                   '$charCount / $maxCharacters',
                   style: TextStyle(
@@ -148,8 +163,7 @@ class TranslationInputBox extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    SoundButton(onPressed: onListen),
-                    const SizedBox(width: 10),
+                    // Voice input button
                     Container(
                       width: 36,
                       height: 36,
@@ -158,73 +172,16 @@ class TranslationInputBox extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: Center(
-                        child: Image.asset(
+                        child: SvgPicture.asset(
                           AppAssets.mic,
                           width: 14,
                           height: 16,
-                          color: AppColors.wight,
+                          colorFilter: const ColorFilter.mode(AppColors.wight, BlendMode.srcIn),
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            )
-          else
-            // Empty Actions
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    InkWell(
-                      onTap: onPaste,
-                      borderRadius: BorderRadius.circular(16),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: pasteBg,
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Row(
-                          children: [
-                            Image.asset(
-                              AppAssets.paste,
-                              width: 12,
-                              height: 14,
-                              color: pasteTextColor,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              'Paste',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: pasteTextColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    SoundButton(onPressed: onListen),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '$charCount / $maxCharacters',
-                      style: TextStyle(
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w500,
-                        color: hintColor,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 8),
+                    // Submit / translate button
                     InkWell(
                       onTap: onSubmit,
                       borderRadius: BorderRadius.circular(20),
@@ -236,11 +193,99 @@ class TranslationInputBox extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: Center(
-                          child: Image.asset(
+                          child: SvgPicture.asset(
                             AppAssets.arrowForward,
                             width: 14,
                             height: 14,
-                            color: submitIconColor,
+                            colorFilter: ColorFilter.mode(submitIconColor, BlendMode.srcIn),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            )
+          else
+            // Empty: show Paste pill + sound icon on the left, char counter + submit on the right
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Flexible prevents overflow when the pill + sound icon are wide
+                Flexible(
+                  child: Row(
+                    children: [
+                      // Paste from clipboard pill
+                      InkWell(
+                        onTap: onPaste,
+                        borderRadius: BorderRadius.circular(16),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: pasteBg,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SvgPicture.asset(
+                                AppAssets.paste,
+                                width: 12,
+                                height: 14,
+                                colorFilter: ColorFilter.mode(pasteTextColor, BlendMode.srcIn),
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                'Paste',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: pasteTextColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      // Listen / voice input icon
+                      SoundButton(onPressed: onListen),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Character counter (shows 0 while empty)
+                    Text(
+                      '$charCount / $maxCharacters',
+                      style: TextStyle(
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w500,
+                        color: hintColor,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    // Submit arrow
+                    InkWell(
+                      onTap: onSubmit,
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: submitBg,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            AppAssets.arrowForward,
+                            width: 14,
+                            height: 14,
+                            colorFilter: ColorFilter.mode(submitIconColor, BlendMode.srcIn),
                           ),
                         ),
                       ),

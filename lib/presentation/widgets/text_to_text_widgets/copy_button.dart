@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../utils/app_assets.dart';
 import '../../utils/app_colors.dart';
 
@@ -20,11 +21,11 @@ class CopyButton extends StatelessWidget {
       radius: 18,
       child: Padding(
         padding: const EdgeInsets.all(4),
-        child: Image.asset(
+        child: SvgPicture.asset(
           AppAssets.copy,
           width: 16,
           height: 17,
-          color: iconColor,
+          colorFilter: ColorFilter.mode(iconColor, BlendMode.srcIn),
         ),
       ),
     );

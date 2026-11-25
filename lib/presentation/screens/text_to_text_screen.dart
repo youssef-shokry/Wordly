@@ -10,6 +10,8 @@ import '../widgets/text_to_text_widgets/translated_text_card.dart';
 import '../widgets/text_to_text_widgets/translation_input_box.dart';
 import '../widgets/text_to_text_widgets/translation_mode_toggle.dart';
 
+/// Main screen for text-to-text translation.
+/// Holds all state: input text, active language pair, and translation result.
 class TextToTextScreen extends StatefulWidget {
   const TextToTextScreen({super.key});
 
@@ -20,11 +22,14 @@ class TextToTextScreen extends StatefulWidget {
 class _TextToTextScreenState extends State<TextToTextScreen> {
   late TranslationResultModel _currentTranslation;
   late TextEditingController _textController;
+
+  // true = text mode, false = live speech mode
   bool _isTextMode = true;
 
   @override
   void initState() {
     super.initState();
+    // Start with EN→AR mock, but clear the input so the empty state shows first
     _currentTranslation =
         MockTranslationData.mockEnToArTranslation.copyWith(lang1Text: '');
     _textController = TextEditingController(text: '');
@@ -36,7 +41,8 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
     super.dispose();
   }
 
-  // Swap Languages
+  /// Flip the source and target languages.
+  /// If the box was empty, keep it empty after swap.
   void _swapLanguages() {
     setState(() {
       final wasEmpty = _textController.text.trim().isEmpty;
@@ -54,14 +60,14 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
     });
   }
 
-  // Input Change
+  /// Keep the model in sync as the user types.
   void _onInputChanged(String value) {
     setState(() {
       _currentTranslation = _currentTranslation.copyWith(lang1Text: value);
     });
   }
 
-  // Clear Input
+  /// Wipe the input and go back to the empty state.
   void _onClear() {
     setState(() {
       _textController.clear();
@@ -69,7 +75,7 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
     });
   }
 
-  // Paste Input
+  /// Fill the input with mock sample text (simulates clipboard paste).
   void _onPaste() {
     setState(() {
       final sample = _currentTranslation.lang1Code == 'EN'
@@ -84,6 +90,8 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor = isDark ? AppColors.darkBg : AppColors.lightBg;
+
+    // Decide whether to show results or the empty-state prompt
     final hasData = _textController.text.trim().isNotEmpty;
 
     return Scaffold(
@@ -95,7 +103,7 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Mode Toggle
+              // Switch between Text and Live Speech modes
               TranslationModeToggle(
                 isTextMode: _isTextMode,
                 onModeChanged: (isText) {
@@ -106,7 +114,7 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
               ),
               const SizedBox(height: 12),
 
-              // Language Selector
+              // Source & target language picker with swap button
               LanguageSelectorCard(
                 sourceLangCode: _currentTranslation.lang1Code,
                 sourceLangTitle: _currentTranslation.lang1Title,
@@ -118,7 +126,7 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
               ),
               const SizedBox(height: 12),
 
-              // Input Box
+              // Text field where the user types what they want translated
               TranslationInputBox(
                 controller: _textController,
                 sourceLanguage: _currentTranslation.lang1Title,
@@ -131,11 +139,11 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
               ),
               const SizedBox(height: 12),
 
-              // Content Switch
+              // Show results when there's input, otherwise show the welcome hero
               if (!hasData) ...[
                 const EmptyStateHero(),
               ] else ...[
-                // Output Card
+                // The translated output card
                 TranslatedTextCard(
                   targetLangTitle: _currentTranslation.lang2Title,
                   targetLangSubtitle: _currentTranslation.lang2Subtitle,
@@ -154,7 +162,7 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
                 ),
                 const SizedBox(height: 14),
 
-                // Nuances Section
+                // context meanings and usage examples
                 ContextAndNuancesSection(
                   items: _currentTranslation.nuances,
                 ),
