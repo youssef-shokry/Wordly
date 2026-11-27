@@ -9,11 +9,15 @@ import '../../utils/app_constants.dart';
 class TranslationModeToggle extends StatelessWidget {
   final bool isTextMode;
   final ValueChanged<bool>? onModeChanged;
+  final int? textCount;
+  final int? liveSpeechCount;
 
   const TranslationModeToggle({
     super.key,
     this.isTextMode = true,
     this.onModeChanged,
+    this.textCount,
+    this.liveSpeechCount,
   });
 
   @override
@@ -82,6 +86,10 @@ class TranslationModeToggle extends StatelessWidget {
                         color: isTextMode ? activeTextColor : inactiveTextColor,
                       ),
                     ),
+                    if (textCount != null) ...[
+                      const SizedBox(width: 6),
+                      _ModeCountBadge(count: textCount!, isActive: isTextMode),
+                    ],
                   ],
                 ),
               ),
@@ -137,12 +145,51 @@ class TranslationModeToggle extends StatelessWidget {
                         ),
                       ),
                     ),
+                    if (liveSpeechCount != null) ...[
+                      const SizedBox(width: 6),
+                      _ModeCountBadge(
+                        count: liveSpeechCount!,
+                        isActive: !isTextMode,
+                      ),
+                    ],
                   ],
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ModeCountBadge extends StatelessWidget {
+  const _ModeCountBadge({required this.count, required this.isActive});
+
+  final int count;
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      decoration: BoxDecoration(
+        color: isActive
+            ? (isDark ? AppColors.midnightBlue : AppColors.paleBlue)
+            : (isDark ? AppColors.navyBlue : AppColors.lavenderBg),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        '$count',
+        style: TextStyle(
+          fontSize: 10,
+          height: 1,
+          fontWeight: FontWeight.w700,
+          color: isActive
+              ? (isDark ? AppColors.lightBlue : AppColors.darkBlue)
+              : (isDark ? AppColors.coolGray : AppColors.darkGrey),
+        ),
       ),
     );
   }

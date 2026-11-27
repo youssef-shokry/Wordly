@@ -8,6 +8,7 @@ abstract final class AppAssets {
   static const copy = "assets/icons/copy.svg";
   static const editNote = "assets/icons/edit_note.svg";
   static const liveSpeech = "assets/icons/live_speech.svg";
+  static const languageDirection = "assets/icons/language_direction.svg";
   static const mic = "assets/icons/mic.svg";
   static const paste = "assets/icons/paste.svg";
   static const sound = "assets/icons/sound.svg";

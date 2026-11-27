@@ -1,4 +1,5 @@
 import 'package:depi_final_project/presentation/screens/text_to_text_screen.dart';
+import 'package:depi_final_project/presentation/screens/text_translation_history_screen.dart';
 import 'package:depi_final_project/presentation/widgets/drawer.dart';
 import 'package:depi_final_project/presentation/widgets/wordly_appbar_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: WordlyAppbarWidget(),
         drawer: WordlyDrawer(),
-        body: TextToTextScreen(),
+        body: TextTranslationHistoryScreen(),
       ),
     );
   }
