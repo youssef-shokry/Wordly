@@ -1,11 +1,12 @@
 import 'package:depi_final_project/models/language.dart';
 import 'package:depi_final_project/presentation/utils/app_assets.dart';
 import 'package:depi_final_project/presentation/utils/app_colors.dart';
+import 'package:depi_final_project/presentation/utils/app_languages.dart';
 import 'package:depi_final_project/presentation/utils/app_styles.dart';
+import 'package:depi_final_project/presentation/widgets/settings_widgets/full_width_icon_outlined_button.dart';
 import 'package:depi_final_project/presentation/widgets/settings_widgets/language_dropdown.dart';
 import 'package:depi_final_project/presentation/widgets/settings_widgets/language_pair_selector.dart';
 import 'package:depi_final_project/presentation/widgets/settings_widgets/offline_packs_tile.dart';
-import 'package:depi_final_project/presentation/widgets/settings_widgets/outlined_action_button.dart';
 import 'package:depi_final_project/presentation/widgets/settings_widgets/settings_group.dart';
 import 'package:depi_final_project/presentation/widgets/settings_widgets/settings_section_card.dart';
 import 'package:depi_final_project/presentation/widgets/settings_widgets/settings_tile.dart';
@@ -22,15 +23,15 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   /// Packs the user can download (every language except English),
   /// and the size of each one (MB).
-  static final List<String> _availablePacks = Languages.all
-      .where((l) => l.code != Languages.english.code)
+  static final List<String> _availablePacks = AppLanguages.supportedLanguages
+      .where((l) => l.code != AppLanguages.english.code)
       .map((l) => l.name)
       .toList();
   static const int _packSizeMb = 42;
 
-  Language _source = Languages.english;
-  Language _target = Languages.arabic;
-  Language _interfaceLanguage = Languages.english;
+  Language _source = AppLanguages.english;
+  Language _target = AppLanguages.arabic;
+  Language _interfaceLanguage = AppLanguages.english;
 
   final Set<String> _downloadedPacks = {'Arabic', 'Spanish', 'German'};
 
@@ -98,7 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                OutlinedActionButton(
+                FullWidthIconOutlinedButton(
                   icon: Icons.logout,
                   label: 'Log Out',
                   onPressed: () {
@@ -120,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 LanguagePairSelector(
                   source: _source,
                   target: _target,
-                  languages: Languages.all,
+                  languages: AppLanguages.supportedLanguages,
                   onSourceChanged: _onSourceChanged,
                   onTargetChanged: _onTargetChanged,
                   onSwap: _swapLanguages,
@@ -142,7 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 LanguageDropdown(
                   language: _interfaceLanguage,
-                  languages: Languages.all,
+                  languages: AppLanguages.supportedLanguages,
                   showBadge: false,
                   onChanged: (value) =>
                       setState(() => _interfaceLanguage = value),
