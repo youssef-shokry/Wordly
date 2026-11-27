@@ -1,114 +1,52 @@
-// Nuance Item
-class NuanceItemData {
-  final String term;
-  final String partOfSpeech;
-  final String translatedTerm;
-  final String definition;
-  final String exampleSource;
-  final String exampleTarget;
+/// Google Cloud Translation v3 response model.
+///
+/// The service response contains one Translation per item in the request's
+/// `contents` array, in the same order.
+class TranslationResultModel {
+  final List<TranslatedItem> translations;
+  final String? model;
 
-  const NuanceItemData({
-    required this.term,
-    required this.partOfSpeech,
-    required this.translatedTerm,
-    required this.definition,
-    required this.exampleSource,
-    required this.exampleTarget,
-  });
+  const TranslationResultModel({required this.translations, this.model});
 
-  // FromJson Factory
-  factory NuanceItemData.fromJson(Map<String, dynamic> json) {
-    return NuanceItemData(
-      term: json['term'] as String? ?? '',
-      partOfSpeech: json['partOfSpeech'] as String? ?? 'noun',
-      translatedTerm: json['translatedTerm'] as String? ?? '',
-      definition: json['definition'] as String? ?? '',
-      exampleSource: json['exampleSource'] as String? ?? '',
-      exampleTarget: json['exampleTarget'] as String? ?? '',
+  factory TranslationResultModel.fromJson(Map<String, dynamic> json) {
+    final values = json['translations'];
+    if (values is! List) {
+      throw const FormatException('Translation response has no translations list.');
+    }
+    if (values.isEmpty) {
+      throw const FormatException('Translation response contains no translations.');
+    }
+    return TranslationResultModel(
+      translations: values
+          .map((item) {
+            if (item is! Map<String, dynamic>) {
+              throw const FormatException('Invalid translation item.');
+            }
+            return TranslatedItem.fromJson(item);
+          })
+          .toList(growable: false),
+      model: json['model'] as String?,
     );
   }
 }
 
-// Translation Model
-class TranslationResultModel {
-  // Source Language
-  final String lang1Code;
-  final String lang1Title;
-  final String lang1Text;
-
-  // Target Language
-  final String lang2Code;
-  final String lang2Title;
-  final String lang2Subtitle;
-  final String lang2Banner;
+class TranslatedItem {
   final String translatedText;
-  final String transliterationText;
-  final bool isVerified;
+  final String? detectedLanguageCode;
 
-  // Nuance List
-  final List<NuanceItemData> nuances;
-
-  const TranslationResultModel({
-    required this.lang1Code,
-    required this.lang1Title,
-    required this.lang1Text,
-    required this.lang2Code,
-    required this.lang2Title,
-    required this.lang2Subtitle,
-    required this.lang2Banner,
+  const TranslatedItem({
     required this.translatedText,
-    required this.transliterationText,
-    required this.isVerified,
-    required this.nuances,
+    this.detectedLanguageCode,
   });
 
-  // FromJson Factory
-  factory TranslationResultModel.fromJson(Map<String, dynamic> json) {
-    return TranslationResultModel(
-      lang1Code: json['lang1Code'] as String? ?? 'EN',
-      lang1Title: json['lang1Title'] as String? ?? 'English (US)',
-      lang1Text: json['lang1Text'] as String? ?? '',
-      lang2Code: json['lang2Code'] as String? ?? 'AR',
-      lang2Title: json['lang2Title'] as String? ?? 'Arabic',
-      lang2Subtitle: json['lang2Subtitle'] as String? ?? 'العربية',
-      lang2Banner: json['lang2Banner'] as String? ?? 'Modern Standard',
-      translatedText: json['translatedText'] as String? ?? '',
-      transliterationText: json['transliterationText'] as String? ?? '',
-      isVerified: json['isVerified'] as bool? ?? true,
-      nuances: (json['nuances'] as List<dynamic>?)
-              ?.map((item) =>
-                  NuanceItemData.fromJson(item as Map<String, dynamic>))
-              .toList() ??
-          [],
-    );
-  }
-
-  // CopyWith Helper
-  TranslationResultModel copyWith({
-    String? lang1Code,
-    String? lang1Title,
-    String? lang1Text,
-    String? lang2Code,
-    String? lang2Title,
-    String? lang2Subtitle,
-    String? lang2Banner,
-    String? translatedText,
-    String? transliterationText,
-    bool? isVerified,
-    List<NuanceItemData>? nuances,
-  }) {
-    return TranslationResultModel(
-      lang1Code: lang1Code ?? this.lang1Code,
-      lang1Title: lang1Title ?? this.lang1Title,
-      lang1Text: lang1Text ?? this.lang1Text,
-      lang2Code: lang2Code ?? this.lang2Code,
-      lang2Title: lang2Title ?? this.lang2Title,
-      lang2Subtitle: lang2Subtitle ?? this.lang2Subtitle,
-      lang2Banner: lang2Banner ?? this.lang2Banner,
-      translatedText: translatedText ?? this.translatedText,
-      transliterationText: transliterationText ?? this.transliterationText,
-      isVerified: isVerified ?? this.isVerified,
-      nuances: nuances ?? this.nuances,
+  factory TranslatedItem.fromJson(Map<String, dynamic> json) {
+    final text = json['translatedText'];
+    if (text is! String || text.isEmpty) {
+      throw const FormatException('Translation item has no translatedText.');
+    }
+    return TranslatedItem(
+      translatedText: text,
+      detectedLanguageCode: json['detectedLanguageCode'] as String?,
     );
   }
 }
