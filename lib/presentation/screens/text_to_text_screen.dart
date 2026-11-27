@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import '../mock_data/mock_data.dart';
+import 'package:flutter/services.dart';
+import '../mock_data/mock_translation_response.dart';
 import '../models/translation_result_model.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_constants.dart';
 import '../widgets/text_to_text_widgets/empty_state_hero.dart';
 import '../widgets/text_to_text_widgets/language_selector_card.dart';
-import '../widgets/text_to_text_widgets/nuance_card.dart';
 import '../widgets/text_to_text_widgets/translated_text_card.dart';
 import '../widgets/text_to_text_widgets/translation_input_box.dart';
 import '../widgets/text_to_text_widgets/translation_mode_toggle.dart';
 
-/// Main screen for text-to-text translation.
-/// Holds all state: input text, active language pair, and translation result.
 class TextToTextScreen extends StatefulWidget {
   const TextToTextScreen({super.key});
 
@@ -19,20 +17,21 @@ class TextToTextScreen extends StatefulWidget {
   State<TextToTextScreen> createState() => _TextToTextScreenState();
 }
 
-class _TextToTextScreenState extends State<TextToTextScreen> {
-  late TranslationResultModel _currentTranslation;
-  late TextEditingController _textController;
+enum _TranslationStatus { idle, loading, success, error }
 
-  // true = text mode, false = live speech mode
+class _TextToTextScreenState extends State<TextToTextScreen> {
+  late final TextEditingController _textController;
+  _TranslationStatus _status = _TranslationStatus.idle;
+  TranslationResultModel? _result;
+  String? _errorMessage;
+  String _sourceCode = 'EN';
+  String _targetCode = 'RU';
   bool _isTextMode = true;
 
   @override
   void initState() {
     super.initState();
-    // Start with EN→AR mock, but clear the input so the empty state shows first
-    _currentTranslation =
-        MockTranslationData.mockEnToArTranslation.copyWith(lang1Text: '');
-    _textController = TextEditingController(text: '');
+    _textController = TextEditingController();
   }
 
   @override
@@ -41,58 +40,107 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
     super.dispose();
   }
 
-  /// Flip the source and target languages.
-  /// If the box was empty, keep it empty after swap.
   void _swapLanguages() {
     setState(() {
-      final wasEmpty = _textController.text.trim().isEmpty;
-      if (_currentTranslation.lang1Code == 'EN') {
-        _currentTranslation = MockTranslationData.mockArToEnTranslation;
+      final previousSource = _sourceCode;
+      final wasSuccessful =
+          _status == _TranslationStatus.success && _result != null;
+      final previousInput = _textController.text.trim();
+      final previousOutput = wasSuccessful
+          ? _result!.translations.first.translatedText
+          : null;
+
+      _sourceCode = _targetCode;
+      _targetCode = previousSource;
+
+      if (previousOutput != null) {
+        _textController.value = TextEditingValue(
+          text: previousOutput,
+          selection: TextSelection.collapsed(offset: previousOutput.length),
+        );
+        // Swapping a completed pair reverses the displayed source/output.
+        // No new translation is claimed or requested from the demo response.
+        _result = TranslationResultModel.fromJson({
+          'translations': [
+            {'translatedText': previousInput},
+          ],
+        });
+        _status = _TranslationStatus.success;
+        _errorMessage = null;
       } else {
-        _currentTranslation = MockTranslationData.mockEnToArTranslation;
-      }
-      if (wasEmpty) {
-        _textController.text = '';
-        _currentTranslation = _currentTranslation.copyWith(lang1Text: '');
-      } else {
-        _textController.text = _currentTranslation.lang1Text;
+        _resetTranslation();
       }
     });
   }
 
-  /// Keep the model in sync as the user types.
-  void _onInputChanged(String value) {
-    setState(() {
-      _currentTranslation = _currentTranslation.copyWith(lang1Text: value);
-    });
+  void _resetTranslation() {
+    _status = _TranslationStatus.idle;
+    _result = null;
+    _errorMessage = null;
   }
 
-  /// Wipe the input and go back to the empty state.
+  void _onInputChanged(String _) {
+    setState(_resetTranslation);
+  }
+
   void _onClear() {
     setState(() {
       _textController.clear();
-      _currentTranslation = _currentTranslation.copyWith(lang1Text: '');
+      _resetTranslation();
     });
   }
 
-  /// Fill the input with mock sample text (simulates clipboard paste).
-  void _onPaste() {
+  Future<void> _onPaste() async {
+    final data = await Clipboard.getData(Clipboard.kTextPlain);
+    final text = data?.text;
+    if (text == null || !mounted) return;
+    _textController.value = TextEditingValue(
+      text: text,
+      selection: TextSelection.collapsed(offset: text.length),
+    );
+    setState(_resetTranslation);
+  }
+
+  Future<void> _translate() async {
+    final sourceText = _textController.text.trim();
+    if (sourceText.isEmpty || _status == _TranslationStatus.loading) return;
+
+    FocusScope.of(context).unfocus();
     setState(() {
-      final sample = _currentTranslation.lang1Code == 'EN'
-          ? MockTranslationData.mockEnToArTranslation.lang1Text
-          : MockTranslationData.mockArToEnTranslation.lang1Text;
-      _textController.text = sample;
-      _currentTranslation = _currentTranslation.copyWith(lang1Text: sample);
+      _status = _TranslationStatus.loading;
+      _result = null;
+      _errorMessage = null;
     });
+
+    try {
+      // Simulates the network wait until the Google API is connected.
+      await Future<void>.delayed(const Duration(milliseconds: 400));
+      if (_sourceCode != 'EN' || _targetCode != 'RU' ||
+          sourceText != mockSourceText) {
+        throw StateError(
+          'Demo mode supports only “$mockSourceText” translated from English to Russian.',
+        );
+      }
+      final result = TranslationResultModel.fromJson(mockTranslationResponse);
+      if (!mounted) return;
+      setState(() {
+        _result = result;
+        _status = _TranslationStatus.success;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _status = _TranslationStatus.error;
+        _errorMessage = 'Could not translate this text. Please try again.';
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final backgroundColor = isDark ? AppColors.darkBg : AppColors.lightBg;
-
-    // Decide whether to show results or the empty-state prompt
-    final hasData = _textController.text.trim().isNotEmpty;
+    final result = _result;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -103,70 +151,54 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Switch between Text and Live Speech modes
               TranslationModeToggle(
                 isTextMode: _isTextMode,
-                onModeChanged: (isText) {
-                  setState(() {
-                    _isTextMode = isText;
-                  });
-                },
+                onModeChanged: (value) => setState(() => _isTextMode = value),
               ),
               const SizedBox(height: 12),
-
-              // Source & target language picker with swap button
               LanguageSelectorCard(
-                sourceLangCode: _currentTranslation.lang1Code,
-                sourceLangTitle: _currentTranslation.lang1Title,
-                targetLangCode: _currentTranslation.lang2Code,
-                targetLangTitle: _currentTranslation.lang2Subtitle.isNotEmpty
-                    ? _currentTranslation.lang2Subtitle
-                    : _currentTranslation.lang2Title,
+                sourceLangCode: _sourceCode,
+                sourceLangTitle: _languageTitle(_sourceCode),
+                targetLangCode: _targetCode,
+                targetLangTitle: _languageTitle(_targetCode),
                 onSwap: _swapLanguages,
               ),
               const SizedBox(height: 12),
-
-              // Text field where the user types what they want translated
               TranslationInputBox(
                 controller: _textController,
-                sourceLanguage: _currentTranslation.lang1Title,
+                sourceLanguage: _languageTitle(_sourceCode),
                 onChanged: _onInputChanged,
                 onClear: _onClear,
                 onPaste: _onPaste,
-                onSubmit: () {
-                  FocusScope.of(context).unfocus();
-                },
+                onSubmit: _translate,
               ),
               const SizedBox(height: 12),
-
-              // Show results when there's input, otherwise show the welcome hero
-              if (!hasData) ...[
-                const EmptyStateHero(),
-              ] else ...[
-                // The translated output card
+              if (_status == _TranslationStatus.idle)
+                const EmptyStateHero()
+              else if (_status == _TranslationStatus.loading)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 48),
+                  child: Center(child: CircularProgressIndicator()),
+                )
+              else if (_status == _TranslationStatus.error)
+                _TranslationError(message: _errorMessage ?? 'Translation failed.')
+              else if (_status == _TranslationStatus.success && result != null) ...[
                 TranslatedTextCard(
-                  targetLangTitle: _currentTranslation.lang2Title,
-                  targetLangSubtitle: _currentTranslation.lang2Subtitle,
-                  targetLangBanner: _currentTranslation.lang2Banner,
-                  translatedText: _currentTranslation.translatedText,
-                  transliterationText: _currentTranslation.transliterationText,
-                  isVerified: _currentTranslation.isVerified,
-                  onCopy: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(AppConstants.copiedToClipboard),
-                        duration: Duration(seconds: 1),
-                      ),
-                    );
-                  },
+                  targetLangTitle: _languageTitle(_targetCode),
+                  targetLangSubtitle: '',
+                  targetLangBanner: 'Demo response',
+                  translatedText: result.translations.first.translatedText,
+                  transliterationText: '',
+                  isVerified: false,
+                  onCopy: () => ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(AppConstants.copiedToClipboard),
+                      duration: Duration(seconds: 1),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 14),
-
-                // context meanings and usage examples
-                ContextAndNuancesSection(
-                  items: _currentTranslation.nuances,
-                ),
-                const SizedBox(height: 16),
+                const _EmptyNuancesSection(),
               ],
             ],
           ),
@@ -174,4 +206,49 @@ class _TextToTextScreenState extends State<TextToTextScreen> {
       ),
     );
   }
+
+  String _languageTitle(String code) => switch (code) {
+        'EN' => 'English (US)',
+        'RU' => 'Russian',
+        'AR' => 'Arabic',
+        _ => code,
+      };
+}
+
+class _TranslationError extends StatelessWidget {
+  final String message;
+
+  const _TranslationError({required this.message});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.wight
+                : AppColors.darkGrey,
+          ),
+        ),
+      );
+}
+
+class _EmptyNuancesSection extends StatelessWidget {
+  const _EmptyNuancesSection();
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        child: Text(
+          'Context and nuances will appear here when available.',
+          style: TextStyle(
+            fontSize: 12,
+            color: Theme.of(context).brightness == Brightness.dark
+                ? AppColors.coolGray
+                : AppColors.darkGrey,
+          ),
+        ),
+      );
 }
